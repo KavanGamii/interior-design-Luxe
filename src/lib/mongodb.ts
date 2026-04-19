@@ -1,14 +1,16 @@
 import { MongoClient } from "mongodb";
 
-if (!process.env.MONGODB_URI) {
-  throw new Error('Invalid/Missing environment variable: "MONGODB_URI"');
-}
-
-const uri = process.env.MONGODB_URI;
+const uri = process.env.MONGODB_URI || "";
 const options = {};
 
 let client;
-let clientPromise: Promise<MongoClient>;
+let clientPromise: Promise<any>;
+
+if (!uri) {
+  // Return a rejected promise instead of crashing at the top-level
+  // This allows db.ts to gracefully catch the error and fallback to db.json
+  clientPromise = Promise.reject(new Error("Missing MONGODB_URI environment variable"));
+} else {
 
 if (process.env.NODE_ENV === "development") {
   // In development mode, use a global variable so that the value
@@ -32,6 +34,8 @@ if (process.env.NODE_ENV === "development") {
     console.error("MongoDB production connection failed:", err.message);
     throw err;
   });
+}
+
 }
 
 // Export a module-scoped MongoClient promise. By doing this in a
