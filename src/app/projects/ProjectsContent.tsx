@@ -41,6 +41,7 @@ export default function ProjectsContent({ projects }: { projects: any[] }) {
             key={project._id} 
             href={`/projects/${project.slug}`}
             className="project-item group block"
+            data-cursor="project"
           >
             <div className="relative aspect-[3/4] overflow-hidden bg-charcoal/5 mb-6">
               <Image

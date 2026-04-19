@@ -278,6 +278,7 @@ export function MediaContent() {
                   className={cn(
                     "group relative aspect-square bg-white rounded-3xl border border-charcoal/5 transition-all duration-700 cursor-pointer overflow-hidden hover:border-charcoal/20 hover:shadow-2xl hover:scale-[1.02]",
                   )}
+                  data-cursor="media"
                 >
                   {renderGridIcon(item)}
                   
@@ -325,6 +326,7 @@ export function MediaContent() {
               <button 
                 onClick={() => setIsPreviewOpen(false)}
                 className="w-14 h-14 bg-white/5 text-cream hover:bg-white hover:text-charcoal transition-all duration-500 flex items-center justify-center rounded-2xl group shadow-2xl"
+                data-cursor="close"
               >
                 <X size={28} className="group-hover:rotate-90 transition-transform duration-500" />
               </button>
