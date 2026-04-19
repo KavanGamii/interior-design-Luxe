@@ -14,12 +14,10 @@ const inter = Inter({
 });
 
 import { SmoothScroll } from "@/components/layout/SmoothScroll";
-import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
 import { getConfig } from "@/lib/db";
 import { CustomCursor } from "@/components/layout/CustomCursor";
-import { FooterUnveil } from "@/components/layout/FooterUnveil";
 import { Preloader } from "@/components/layout/Preloader";
+import { PublicLayoutWrapper } from "@/components/layout/PublicLayoutWrapper";
 
 export const metadata: Metadata = {
   title: "Luxe Interiors | Luxury Interior Design Studio",
@@ -36,17 +34,12 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
-      className={`${cormorant.variable} ${inter.variable} h-full antialiased cursor-none`}
+      className={`${cormorant.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="font-sans bg-cream text-charcoal min-h-screen selection:bg-accent-gold/30 selection:text-charcoal transition-colors duration-500">
-        <CustomCursor />
-        <Preloader />
-        <SmoothScroll>
-          <FooterUnveil footer={<Footer config={config} />}>
-            <Navbar config={config} />
-            <main className="flex-grow">{children}</main>
-          </FooterUnveil>
-        </SmoothScroll>
+        <PublicLayoutWrapper config={config}>
+          {children}
+        </PublicLayoutWrapper>
       </body>
     </html>
   );
