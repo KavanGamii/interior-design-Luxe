@@ -42,9 +42,12 @@
     @apply bg-white/70 backdrop-blur-md border border-white/20;
   }
   
-  .gsap-reveal {
-    opacity: 0;
-    visibility: hidden;
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }
 

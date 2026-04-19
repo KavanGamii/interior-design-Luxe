@@ -83,7 +83,7 @@ export function Navbar({ config }: { config?: any }) {
       <div
         ref={overlayRef}
         className={cn(
-          "fixed inset-0 z-[40] bg-charcoal flex flex-col justify-center px-6 md:px-16 lg:px-24 overflow-y-auto py-24",
+          "fixed inset-0 z-[40] bg-charcoal flex flex-col justify-center px-6 md:px-16 lg:px-24 overflow-y-auto py-24 no-scrollbar",
           !isOpen && "hidden"
         )}
         style={{ clipPath: "circle(0% at 100% 0%)" }}
