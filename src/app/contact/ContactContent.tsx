@@ -69,20 +69,28 @@ export default function ContactContent({ config }: { config?: any }) {
               </div>
             </div>
 
-            <div className="mt-16 pt-12 border-t border-charcoal/10">
-              <h4 className="text-xs uppercase tracking-widest font-black text-charcoal/40 mb-6">Follow Our Journey</h4>
-              <div className="flex space-x-6">
-                <a href={socials.instagram} target="_blank" className="w-10 h-10 border border-charcoal/10 rounded-full flex items-center justify-center text-charcoal hover:bg-charcoal hover:text-cream transition-all duration-300">
-                  <Instagram size={18} />
-                </a>
-                <a href={socials.linkedin} target="_blank" className="w-10 h-10 border border-charcoal/10 rounded-full flex items-center justify-center text-charcoal hover:bg-charcoal hover:text-cream transition-all duration-300">
-                  <Linkedin size={18} />
-                </a>
-                <a href={socials.twitter || socials.pinterest} target="_blank" className="w-10 h-10 border border-charcoal/10 rounded-full flex items-center justify-center text-charcoal hover:bg-charcoal hover:text-cream transition-all duration-300">
-                   {socials.twitter ? <X size={18} /> : <ImageIcon size={18} />}
-                </a>
-              </div>
-            </div>
+        <div className="mt-16 pt-12 border-t border-charcoal/10">
+          <h4 className="text-xs uppercase tracking-widest font-black text-charcoal/40 mb-6">Follow Our Journey</h4>
+          <div className="flex space-x-6">
+            {Object.entries(socials)
+              .filter(([_, value]) => value !== "#" && value !== "")
+              .map(([key, value]) => {
+                const Icon = key === "instagram" ? Instagram : key === "linkedin" ? Linkedin : key === "twitter" ? X : ImageIcon;
+                return (
+                  <a 
+                    key={key} 
+                    href={value as string} 
+                    target="_blank" 
+                    className="w-10 h-10 border border-charcoal/10 rounded-full flex items-center justify-center text-charcoal hover:bg-charcoal hover:text-cream transition-all duration-300"
+                    title={key}
+                  >
+                    <Icon size={18} />
+                  </a>
+                );
+              })
+            }
+          </div>
+        </div>
           </div>
 
           <div className="contact-reveal bg-white p-8 md:p-12 border border-charcoal/5 shadow-2xl relative">

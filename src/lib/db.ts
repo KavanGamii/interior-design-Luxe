@@ -19,8 +19,44 @@ const DEFAULT_DATA = {
     socials: {
       instagram: "#",
       pinterest: "#",
-      linkedin: "#"
-    }
+      linkedin: "#",
+      facebook: "#",
+      twitter: "#",
+      vimeo: "#"
+    },
+    privacyContent: `# Privacy Architecture
+
+At LUXE INTERIORS, we handle your data with the same precision and intent as we do our architectural projects. Your privacy is a cornerstone of our relationship.
+
+## 1. Information We Collect
+We collect information that allows us to provide a bespoke architectural experience. This includes:
+- Personal Identifiers (Name, Email, Professional Title)
+- Project Specifications and Vision Documents
+- Technical Engagement Data (Analytics)
+
+## 2. Our Commitment to Discretion
+We do not sell, trade, or distribute your personal or project data. Information is shared only with certified structural partners directly involved in your project's execution.
+
+## 3. Data Integrity
+Your digital assets and credentials are encrypted within our studio's private cloud infrastructure.
+
+## 4. Contact
+For inquiries regarding our privacy protocols, contact: privacy@luxeinteriors.com`,
+    termsContent: `# Terms of Engagement
+
+Engaging with LUXE INTERIORS signifies an agreement to our studio standards and architectural philosophy.
+
+## 1. Scope of Vision
+Our services are provided as bespoke architectural and interior consultations. All design intent remains the intellectual property of LUXE INTERIORS until final project delivery.
+
+## 2. Professional Standards
+We adhere to the highest international standards of design and structural integrity. Every project is a collaborative journey between client vision and studio expertise.
+
+## 3. Intellectual Property
+Visual assets, renders, and blueprints provided during the design phase are for the client's internal review only and may not be reproduced without written studio consent.
+
+## 4. Governing Law
+These terms are governed by the laws of the jurisdiction in which the studio headquarters resides.`
   }
 };
 
