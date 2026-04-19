@@ -63,14 +63,14 @@ export function Navbar({ config }: { config?: any }) {
       <nav className="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-6 py-8 md:px-12 pointer-events-none">
         <Link 
           href="/" 
-          className="text-2xl font-serif font-bold tracking-tighter text-charcoal pointer-events-auto"
+          className="text-2xl font-serif font-bold tracking-tighter text-white mix-blend-difference pointer-events-auto"
         >
           LUXE.
         </Link>
         
         <button
           onClick={toggleMenu}
-          className="group relative flex items-center justify-center w-12 h-12 rounded-full bg-charcoal text-cream pointer-events-auto overflow-hidden hover:scale-110 transition-transform duration-300"
+          className="group relative flex items-center justify-center w-12 h-12 rounded-full bg-white text-black mix-blend-difference pointer-events-auto overflow-hidden hover:scale-110 transition-transform duration-300"
           aria-label="Toggle Menu"
         >
           <div className="relative w-6 h-6 flex items-center justify-center">
