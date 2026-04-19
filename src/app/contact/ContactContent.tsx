@@ -86,7 +86,7 @@ export default function ContactContent({ config }: { config?: any }) {
           </div>
 
           <div className="contact-reveal bg-white p-8 md:p-12 border border-charcoal/5 shadow-2xl relative">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-accent-gold/5 -z-10 translate-x-12 -translate-y-12"></div>
+            <div className="absolute top-0 right-0 w-32 h-32 bg-accent-gold/5 -z-10 translate-x-12 -translate-y-12 sm:block hidden"></div>
             <h3 className="text-3xl font-serif text-charcoal mb-8">Send a Message</h3>
             <form className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
