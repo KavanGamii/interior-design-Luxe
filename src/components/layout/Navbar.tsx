@@ -137,13 +137,15 @@ export function Navbar({ config }: { config?: any }) {
         </div>
 
         {/* Mobile Info (Visible only on small screens) */}
-        <div className="md:hidden mt-16 pt-12 border-t border-cream/10 flex flex-col space-y-8 text-cream/40 text-[10px] uppercase tracking-widest">
-           <div className="flex space-x-8">
-              <a href={socials.instagram}>IG</a>
-              <a href={socials.linkedin}>LI</a>
-              <a href={socials.pinterest}>PI</a>
+        <div className="md:hidden mt-16 pt-12 border-t border-cream/10 flex flex-col space-y-8 text-cream/40 text-xs uppercase tracking-[0.2em]">
+           <div className="flex flex-col space-y-4">
+              <a href={socials.instagram} className="hover:text-cream transition-colors">Instagram</a>
+              <a href={socials.linkedin} className="hover:text-cream transition-colors">LinkedIn</a>
+              <a href={socials.pinterest} className="hover:text-cream transition-colors">Pinterest</a>
            </div>
-           <p className="text-accent-gold">{config?.contactEmail || "hello@luxeinteriors.com"}</p>
+           <a href={`mailto:${config?.contactEmail || 'hello@luxeinteriors.com'}`} className="text-accent-gold normal-case font-serif tabular-nums text-lg underline decoration-accent-gold/30 underline-offset-4">
+              {config?.contactEmail || "hello@luxeinteriors.com"}
+           </a>
         </div>
       </div>
     </>
