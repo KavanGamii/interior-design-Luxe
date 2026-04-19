@@ -83,25 +83,25 @@ export function Navbar({ config }: { config?: any }) {
       <div
         ref={overlayRef}
         className={cn(
-          "fixed inset-0 z-[40] bg-charcoal flex flex-col justify-center px-6 md:px-24",
+          "fixed inset-0 z-[40] bg-charcoal flex flex-col justify-center px-6 md:px-16 lg:px-24 overflow-y-auto py-24",
           !isOpen && "hidden"
         )}
         style={{ clipPath: "circle(0% at 100% 0%)" }}
       >
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 md:gap-24 items-end">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 md:gap-16 lg:gap-24 items-center">
           {/* Main Links */}
-          <div ref={linksRef} className="lg:col-span-8 flex flex-col space-y-4 md:space-y-2">
+          <div ref={linksRef} className="lg:col-span-8 flex flex-col space-y-2 lg:space-y-4 pt-12 md:pt-0">
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 onClick={toggleMenu}
                 className={cn(
-                  "group flex items-center text-4xl md:text-7xl lg:text-[7vw] font-serif text-cream/30 hover:text-accent-gold transition-colors duration-500 leading-none",
+                  "group flex items-center text-5xl md:text-6xl lg:text-[7vw] font-serif text-cream/30 hover:text-accent-gold transition-colors duration-500 leading-none",
                   pathname === link.href && "text-cream"
                 )}
               >
-                <span className="mr-6 text-sm font-sans text-accent-gold opacity-0 group-hover:opacity-100 -translate-x-4 group-hover:translate-x-0 transition-all duration-300">
+                <span className="mr-6 text-sm font-sans text-accent-gold opacity-0 group-hover:opacity-100 -translate-x-4 group-hover:translate-x-0 transition-all duration-300 hidden md:inline-block">
                   0{NAV_LINKS.indexOf(link) + 1}
                 </span>
                 {link.name}
@@ -110,7 +110,7 @@ export function Navbar({ config }: { config?: any }) {
           </div>
 
           {/* Socials & Contact Info */}
-          <div className="lg:col-span-4 flex flex-col space-y-12 text-cream/50 font-sans text-[10px] uppercase tracking-[0.4em] font-black border-l border-cream/10 pl-8 hidden md:block">
+          <div className="lg:col-span-4 flex flex-col space-y-8 lg:space-y-12 text-cream/50 font-sans text-[10px] uppercase tracking-[0.4em] font-black md:border-l md:border-cream/10 md:pl-8 lg:pl-16 hidden md:flex">
             <div className="space-y-4">
               <p className="text-accent-gold/40">Editorial</p>
               <div className="flex flex-col space-y-2">
@@ -122,12 +122,12 @@ export function Navbar({ config }: { config?: any }) {
             
             <div className="space-y-4">
               <p className="text-accent-gold/40">Inquiries</p>
-              <a href={`mailto:${config?.contactEmail || 'hello@luxeinteriors.com'}`} className="hover:text-cream transition-colors block underline underline-offset-4 decoration-accent-gold/20 leading-loose">
+              <a href={`mailto:${config?.contactEmail || 'hello@luxeinteriors.com'}`} className="hover:text-cream transition-colors block underline underline-offset-4 decoration-accent-gold/20 leading-loose break-all">
                 {config?.contactEmail || "hello@luxeinteriors.com"}
               </a>
             </div>
 
-            <div className="pt-8">
+            <div className="pt-4 lg:pt-8">
                <p className="text-cream/20 leading-relaxed">
                  © 2026 LUXE INTERIORS studio.<br />
                  THE ARCHITECTURE OF INTENT.
@@ -137,7 +137,7 @@ export function Navbar({ config }: { config?: any }) {
         </div>
 
         {/* Mobile Info (Visible only on small screens) */}
-        <div className="md:hidden mt-16 pt-12 border-t border-cream/10 flex flex-col space-y-8 text-cream/40 text-xs uppercase tracking-[0.2em]">
+        <div className="md:hidden mt-8 sm:mt-16 pt-8 sm:pt-12 border-t border-cream/10 flex flex-col space-y-8 text-cream/40 text-xs uppercase tracking-[0.2em]">
            <div className="flex flex-col space-y-4">
               <a href={socials.instagram} className="hover:text-cream transition-colors">Instagram</a>
               <a href={socials.linkedin} className="hover:text-cream transition-colors">LinkedIn</a>
