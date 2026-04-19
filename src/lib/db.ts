@@ -1,0 +1,210 @@
+import clientPromise from "./mongodb";
+import { promises as fs } from "fs";
+import path from "path";
+import { ObjectId } from "mongodb";
+
+const DB_PATH = path.join(process.cwd(), "src/data/db.json");
+
+// Default data for the fallback
+const DEFAULT_DATA = {
+  projects: [],
+  journal: [],
+  config: {
+    id: "global",
+    heroTitle: "Crafting Elevated Spaces.",
+    heroSubtitle: "Luxury Interior Design Studio",
+    contactEmail: "hello@luxeinteriors.com",
+    contactPhone: "+44 (0) 20 7946 0123",
+    contactAddress: "124 Baker Street, London, W1U 6TY",
+    socials: {
+      instagram: "#",
+      pinterest: "#",
+      linkedin: "#"
+    }
+  }
+};
+
+async function getLocalData() {
+  try {
+    const data = await fs.readFile(DB_PATH, "utf8");
+    return JSON.parse(data);
+  } catch (e) {
+    // If file doesn't exist, return default and potentially save it
+    return DEFAULT_DATA;
+  }
+}
+
+async function saveLocalData(data: any) {
+  const dir = path.dirname(DB_PATH);
+  await fs.mkdir(dir, { recursive: true });
+  await fs.writeFile(DB_PATH, JSON.stringify(data, null, 2));
+}
+
+export async function getProjects() {
+  try {
+    const client = await clientPromise;
+    const db = client.db("luxe_interiors");
+    const projects = await db.collection("projects").find({}).toArray();
+    return JSON.parse(JSON.stringify(projects));
+  } catch (e) {
+    console.warn("MongoDB failed, using local fallback");
+    const data = await getLocalData();
+    return data.projects;
+  }
+}
+
+export async function getFeaturedProjects() {
+  try {
+    const client = await clientPromise;
+    const db = client.db("luxe_interiors");
+    const projects = await db.collection("projects").find({ isFeatured: true }).toArray();
+    return JSON.parse(JSON.stringify(projects));
+  } catch (e) {
+    const data = await getLocalData();
+    return data.projects.filter((p: any) => p.isFeatured);
+  }
+}
+
+export async function getProjectById(id: string) {
+  try {
+    const client = await clientPromise;
+    const db = client.db("luxe_interiors");
+    const project = await db.collection("projects").findOne({ _id: new ObjectId(id) });
+    return project ? JSON.parse(JSON.stringify(project)) : null;
+  } catch (e) {
+    const data = await getLocalData();
+    return data.projects.find((p: any) => p._id === id || p.id === id) || null;
+  }
+}
+
+export async function getConfig() {
+  try {
+    const client = await clientPromise;
+    const db = client.db("luxe_interiors");
+    const config = await db.collection("config").findOne({ id: "global" });
+    return config ? JSON.parse(JSON.stringify(config)) : DEFAULT_DATA.config;
+  } catch (e) {
+    const data = await getLocalData();
+    return data.config || DEFAULT_DATA.config;
+  }
+}
+
+export async function updateConfig(newConfig: any) {
+  try {
+    const client = await clientPromise;
+    const db = client.db("luxe_interiors");
+    await db.collection("config").updateOne({ id: "global" }, { $set: newConfig }, { upsert: true });
+    return true;
+  } catch (e) {
+    const data = await getLocalData();
+    data.config = { ...data.config, ...newConfig };
+    await saveLocalData(data);
+    return true;
+  }
+}
+
+export async function addProject(project: any) {
+  try {
+    const client = await clientPromise;
+    const db = client.db("luxe_interiors");
+    const result = await db.collection("projects").insertOne({ ...project, createdAt: new Date() });
+    return result.insertedId;
+  } catch (e) {
+    const data = await getLocalData();
+    const newProject = { ...project, _id: new Date().getTime().toString(), createdAt: new Date() };
+    data.projects.push(newProject);
+    await saveLocalData(data);
+    return newProject._id;
+  }
+}
+
+export async function updateProject(id: string, project: any) {
+  try {
+    const client = await clientPromise;
+    const db = client.db("luxe_interiors");
+    const { _id, ...updateData } = project;
+    await db.collection("projects").updateOne({ _id: new ObjectId(id) }, { $set: updateData });
+    return true;
+  } catch (e) {
+    const data = await getLocalData();
+    const index = data.projects.findIndex((p: any) => p._id === id || p.id === id);
+    if (index !== -1) {
+      data.projects[index] = { ...data.projects[index], ...project };
+      await saveLocalData(data);
+    }
+    return true;
+  }
+}
+
+export async function deleteProject(id: string) {
+  try {
+    const client = await clientPromise;
+    const db = client.db("luxe_interiors");
+    await db.collection("projects").deleteOne({ _id: new ObjectId(id) });
+    return true;
+  } catch (e) {
+    const data = await getLocalData();
+    data.projects = data.projects.filter((p: any) => p._id !== id && p.id !== id);
+    await saveLocalData(data);
+    return true;
+  }
+}
+
+export async function seedDatabase(projects: any[], config: any) {
+  try {
+    const client = await clientPromise;
+    const db = client.db("luxe_interiors");
+    await db.collection("projects").deleteMany({});
+    await db.collection("projects").insertMany(projects);
+    await db.collection("config").deleteMany({});
+    await db.collection("config").insertOne(config);
+  } catch (e) {
+    await saveLocalData({ projects, config });
+  }
+}
+export async function getJournalPosts() {
+  try {
+    const client = await clientPromise;
+    const db = client.db("luxe_interiors");
+    const posts = await db.collection("journal").find({}).toArray();
+    return JSON.parse(JSON.stringify(posts));
+  } catch (e) {
+    const data = await getLocalData();
+    return data.journal || [];
+  }
+}
+
+export async function getJournalPostById(id: string) {
+  try {
+    const client = await clientPromise;
+    const db = client.db("luxe_interiors");
+    const post = await db.collection("journal").findOne({ id });
+    return post ? JSON.parse(JSON.stringify(post)) : null;
+  } catch (e) {
+    const data = await getLocalData();
+    return data.journal?.find((p: any) => p.id === id) || null;
+  }
+}
+export async function getProjectBySlug(slug: string) {
+  try {
+    const client = await clientPromise;
+    const db = client.db("luxe_interiors");
+    const project = await db.collection("projects").findOne({ slug });
+    return project ? JSON.parse(JSON.stringify(project)) : null;
+  } catch (e) {
+    const data = await getLocalData();
+    return data.projects.find((p: any) => p.slug === slug) || null;
+  }
+}
+
+export async function getJournalPostBySlug(slug: string) {
+  try {
+    const client = await clientPromise;
+    const db = client.db("luxe_interiors");
+    const post = await db.collection("journal").findOne({ slug });
+    return post ? JSON.parse(JSON.stringify(post)) : null;
+  } catch (e) {
+    const data = await getLocalData();
+    return data.journal?.find((p: any) => p.slug === slug) || null;
+  }
+}
