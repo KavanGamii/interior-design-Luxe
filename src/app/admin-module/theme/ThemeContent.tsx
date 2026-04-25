@@ -1,5 +1,7 @@
 "use client";
 
+import { useState, useEffect } from "react";
+import { Save, RotateCcw, Palette, Info } from "lucide-react";
 import { StatusModal } from "@/components/admin/StatusModal";
 
 const THEME_LABELS = {
