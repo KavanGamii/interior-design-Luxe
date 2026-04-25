@@ -1,7 +1,9 @@
-export { default as clientPromise } from "./mongodb";
+import clientPromise from "./mongodb";
 import { promises as fs } from "fs";
 import path from "path";
 import { ObjectId } from "mongodb";
+
+export { clientPromise };
 
 const DB_PATH = path.join(process.cwd(), "src/data/db.json");
 
