@@ -129,15 +129,23 @@ export function Hero({ config, content }: { config: any, content?: any }) {
           {/* Floating UI Metadata - Fixed Spacing */}
           <div className="hero-ui-element flex flex-col md:flex-row gap-12 md:gap-20 text-cream/40 uppercase tracking-[0.4em] text-[9px] font-black items-center md:items-start">
             <div className="flex flex-col gap-3 items-center md:items-start group cursor-default">
-              <span className="text-accent-gold/40 group-hover:text-accent-gold transition-colors duration-500">The Location</span>
-              <span className="text-cream font-serif italic text-lg tracking-normal normal-case group-hover:translate-x-2 transition-transform duration-500">Mumbai Studio</span>
+              <span className="text-accent-gold/40 group-hover:text-accent-gold transition-colors duration-500">
+                {content?.pill || "The Location"}
+              </span>
+              <span className="text-cream font-serif italic text-lg tracking-normal normal-case group-hover:translate-x-2 transition-transform duration-500">
+                {content?.titleAccent || "Mumbai Studio"}
+              </span>
             </div>
             
             <Minus className="hidden md:block text-accent-gold/20 h-10 w-[1px] rotate-180" />
             
             <div className="flex flex-col gap-3 items-center md:items-start group cursor-default">
-              <span className="text-accent-gold/40 group-hover:text-accent-gold transition-colors duration-500">The Era</span>
-              <span className="text-cream font-serif italic text-lg tracking-normal normal-case group-hover:translate-x-2 transition-transform duration-500">Est. MMXXVI</span>
+              <span className="text-accent-gold/40 group-hover:text-accent-gold transition-colors duration-500">
+                {content?.eraPill || "The Era"}
+              </span>
+              <span className="text-cream font-serif italic text-lg tracking-normal normal-case group-hover:translate-x-2 transition-transform duration-500">
+                {content?.eraText || "Est. MMXXVI"}
+              </span>
             </div>
           </div>
         </div>
