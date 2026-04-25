@@ -19,6 +19,7 @@ import {
   PlayCircle,
   File
 } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { StatusModal } from "@/components/admin/StatusModal";
 
 interface MediaFile {
