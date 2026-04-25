@@ -25,6 +25,8 @@ export const metadata: Metadata = {
   description: "Exquisite architectural spaces crafted with quiet luxury and timeless elegance.",
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function RootLayout({
   children,
 }: Readonly<{
