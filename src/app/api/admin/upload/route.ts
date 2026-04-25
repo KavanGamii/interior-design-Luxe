@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
-import { writeFile, mkdir } from "fs/promises";
-import { join } from "path";
+import { put } from "@vercel/blob";
 import { v4 as uuidv4 } from "uuid";
 
 export async function POST(req: Request) {
@@ -12,30 +11,26 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
     }
 
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-
-    // Create unique filename
+    // Determine content type
+    const contentType = file.type || 'application/octet-stream';
     const ext = file.name.split(".").pop();
     const filename = `${uuidv4()}.${ext}`;
-    
-    // Ensure upload directory exists
-    const uploadDir = join(process.cwd(), "public/uploads");
-    try {
-      await mkdir(uploadDir, { recursive: true });
-    } catch (e) {
-      // ignore
-    }
 
-    const path = join(uploadDir, filename);
-    await writeFile(path, buffer);
+    // Upload to Vercel Blob
+    const blob = await put(`uploads/${filename}`, file, {
+      access: 'public',
+      contentType: contentType,
+    });
 
     return NextResponse.json({ 
       success: true, 
-      url: `/uploads/${filename}` 
+      url: blob.url 
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Upload error:", error);
-    return NextResponse.json({ error: "Failed to upload file" }, { status: 500 });
+    return NextResponse.json({ 
+      error: "Failed to upload file",
+      message: error.message 
+    }, { status: 500 });
   }
 }
