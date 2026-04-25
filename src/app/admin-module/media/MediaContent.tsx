@@ -19,7 +19,7 @@ import {
   PlayCircle,
   File
 } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { StatusModal } from "../../components/admin/StatusModal";
 
 interface MediaFile {
   name: string;
@@ -37,6 +37,20 @@ export function MediaContent() {
   const [isUploading, setIsUploading] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Status Modal State
+  const [modal, setModal] = useState<{
+    isOpen: boolean;
+    type: "success" | "error" | "confirm" | "loading";
+    title: string;
+    message: string;
+    onConfirm?: () => void;
+  }>({
+    isOpen: false,
+    type: "success",
+    title: "",
+    message: ""
+  });
 
   const fetchMedia = async () => {
     try {
@@ -58,13 +72,24 @@ export function MediaContent() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // 50MB Limit Check (50 * 1024 * 1024 bytes)
     if (file.size > 50 * 1024 * 1024) {
-      alert("File is too large. Maximum size allowed is 50MB.");
+      setModal({
+        isOpen: true,
+        type: "error",
+        title: "File Too Large",
+        message: "Maximum size allowed is 50MB for architectural assets."
+      });
       return;
     }
 
     setIsUploading(true);
+    setModal({
+      isOpen: true,
+      type: "loading",
+      title: "Uploading",
+      message: "Processing asset and connecting to cloud storage..."
+    });
+
     const formData = new FormData();
     formData.append("file", file);
 
@@ -75,13 +100,28 @@ export function MediaContent() {
       });
       if (res.ok) {
         await fetchMedia();
+        setModal({
+          isOpen: true,
+          type: "success",
+          title: "Asset Archived",
+          message: `${file.name} has been successfully added to your studio library.`
+        });
       } else {
         const errorData = await res.json();
-        alert(errorData.error || "Upload failed");
+        setModal({
+          isOpen: true,
+          type: "error",
+          title: "Upload Failed",
+          message: errorData.message || "Could not complete the upload to cloud storage."
+        });
       }
     } catch (e) {
-      console.error(e);
-      alert("An error occurred during upload.");
+      setModal({
+        isOpen: true,
+        type: "error",
+        title: "System Error",
+        message: "An unexpected error occurred during the secure upload process."
+      });
     } finally {
       setIsUploading(false);
       if (fileInputRef.current) fileInputRef.current.value = "";
@@ -89,20 +129,26 @@ export function MediaContent() {
   };
 
   const handleDelete = async (url: string) => {
-    if (!confirm("Are you sure you want to delete this asset? This action cannot be undone.")) return;
-
-    try {
-      const res = await fetch(`/api/admin/media?url=${encodeURIComponent(url)}`, {
-        method: "DELETE",
-      });
-      if (res.ok) {
-        setSelected(null);
-        setIsPreviewOpen(false);
-        await fetchMedia();
+    setModal({
+      isOpen: true,
+      type: "confirm",
+      title: "Remove Asset",
+      message: "Are you sure you want to permanently delete this asset? This action cannot be undone.",
+      onConfirm: async () => {
+        try {
+          const res = await fetch(`/api/admin/media?url=${encodeURIComponent(url)}`, {
+            method: "DELETE",
+          });
+          if (res.ok) {
+            setSelected(null);
+            setIsPreviewOpen(false);
+            await fetchMedia();
+          }
+        } catch (e) {
+          console.error(e);
+        }
       }
-    } catch (e) {
-      console.error(e);
-    }
+    });
   };
 
   const filteredMedia = media.filter(m => 
@@ -414,6 +460,15 @@ export function MediaContent() {
 
         </div>
       )}
+
+      <StatusModal 
+        isOpen={modal.isOpen}
+        type={modal.type}
+        title={modal.title}
+        message={modal.message}
+        onConfirm={modal.onConfirm}
+        onClose={() => setModal({ ...modal, isOpen: false })}
+      />
     </div>
   );
 }

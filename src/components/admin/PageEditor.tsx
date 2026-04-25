@@ -17,6 +17,7 @@ import {
   FolderOpen
 } from "lucide-react";
 import { MediaPickerModal } from "./MediaPickerModal";
+import { StatusModal } from "./StatusModal";
 
 interface PageEditorProps {
   pageId: string;
@@ -28,6 +29,20 @@ export default function PageEditor({ pageId }: PageEditorProps) {
   const [saving, setSaving] = useState(false);
   const [activeTab, setActiveTab] = useState<string | null>(null);
   const [mediaPickerTarget, setMediaPickerTarget] = useState<any>(null);
+
+  // Status Modal State
+  const [modal, setModal] = useState<{
+    isOpen: boolean;
+    type: "success" | "error" | "confirm" | "loading";
+    title: string;
+    message: string;
+    onConfirm?: () => void;
+  }>({
+    isOpen: false,
+    type: "success",
+    title: "",
+    message: ""
+  });
 
   useEffect(() => {
     fetchPage();
@@ -50,15 +65,41 @@ export default function PageEditor({ pageId }: PageEditorProps) {
 
   const handleSave = async () => {
     setSaving(true);
+    setModal({
+      isOpen: true,
+      type: "loading",
+      title: "Syncing Layout",
+      message: "Propagating architectural changes to the production environment..."
+    });
+
     try {
-      await fetch(`/api/admin/pages/${pageId}`, {
+      const res = await fetch(`/api/admin/pages/${pageId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(page),
       });
-      alert("Page Updated Successfully");
+      if (res.ok) {
+        setModal({
+          isOpen: true,
+          type: "success",
+          title: "Blueprint Updated",
+          message: "The site layout has been successfully refined and synchronized."
+        });
+      } else {
+        setModal({
+          isOpen: true,
+          type: "error",
+          title: "Update Failed",
+          message: "A structural error occurred while attempting to save your changes."
+        });
+      }
     } catch (error) {
-      console.error("Save failed", error);
+      setModal({
+        isOpen: true,
+        type: "error",
+        title: "System Interrupt",
+        message: "Connectivity issues detected. Please verify your network and retry."
+      });
     } finally {
       setSaving(false);
     }
@@ -83,8 +124,15 @@ export default function PageEditor({ pageId }: PageEditorProps) {
   };
 
   const deleteSection = (id: string) => {
-    if (!confirm("Are you sure you want to remove this section?")) return;
-    setPage({ ...page, sections: page.sections.filter((s: any) => s.id !== id) });
+    setModal({
+      isOpen: true,
+      type: "confirm",
+      title: "Remove Section",
+      message: "Are you sure you want to permanently remove this section from the blueprint?",
+      onConfirm: () => {
+        setPage({ ...page, sections: page.sections.filter((s: any) => s.id !== id) });
+      }
+    });
   };
 
   const openMediaPicker = (sectionId: string, field: string) => {
@@ -280,6 +328,15 @@ export default function PageEditor({ pageId }: PageEditorProps) {
             updateSectionContent(mediaPickerTarget.sectionId, mediaPickerTarget.field, url);
           }
         }}
+      />
+
+      <StatusModal 
+        isOpen={modal.isOpen}
+        type={modal.type}
+        title={modal.title}
+        message={modal.message}
+        onConfirm={modal.onConfirm}
+        onClose={() => setModal({ ...modal, isOpen: false })}
       />
     </div>
   );

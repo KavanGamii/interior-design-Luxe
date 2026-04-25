@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Save, RotateCcw, Palette, CheckCircle2, Info } from "lucide-react";
+import { StatusModal } from "../../components/admin/StatusModal";
 
 const THEME_LABELS = {
   accentGold: {
@@ -31,7 +30,20 @@ export default function ThemeContent() {
   const [theme, setTheme] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [saved, setSaved] = useState(false);
+
+  // Status Modal State
+  const [modal, setModal] = useState<{
+    isOpen: boolean;
+    type: "success" | "error" | "confirm" | "loading";
+    title: string;
+    message: string;
+    onConfirm?: () => void;
+  }>({
+    isOpen: false,
+    type: "success",
+    title: "",
+    message: ""
+  });
 
   useEffect(() => {
     fetchConfig();
@@ -57,6 +69,13 @@ export default function ThemeContent() {
 
   const handleSave = async () => {
     setSaving(true);
+    setModal({
+      isOpen: true,
+      type: "loading",
+      title: "Deploying Identity",
+      message: "Propagating brand color tokens across the global digital infrastructure..."
+    });
+
     try {
       const newConfig = { ...config, theme };
       const res = await fetch("/api/admin/config", {
@@ -65,14 +84,28 @@ export default function ThemeContent() {
         body: JSON.stringify(newConfig),
       });
       if (res.ok) {
-        setSaved(true);
-        setTimeout(() => setSaved(false), 3000);
-        // Dispatch event or just let layout re-fetch if needed
-        // Since ThemeProvider is in layout and listens to config, it might need a refresh
-        window.location.reload(); // Hard reload to apply CSS vars sitewide
+        setModal({
+          isOpen: true,
+          type: "success",
+          title: "Identity Synced",
+          message: "The studio's visual atmosphere has been successfully updated. The system will now refresh to apply changes.",
+          onConfirm: () => window.location.reload()
+        });
+      } else {
+        setModal({
+          isOpen: true,
+          type: "error",
+          title: "Deployment Failed",
+          message: "Could not synchronize theme tokens. Please verify your cloud connection."
+        });
       }
     } catch (error) {
-      console.error("Failed to update theme", error);
+      setModal({
+        isOpen: true,
+        type: "error",
+        title: "System Interrupt",
+        message: "An unexpected error occurred during the identity deployment."
+      });
     } finally {
       setSaving(false);
     }
@@ -83,10 +116,18 @@ export default function ThemeContent() {
   };
 
   const resetToDefault = () => {
-    const defaults = Object.fromEntries(
-      Object.entries(THEME_LABELS).map(([key, val]) => [key, val.default])
-    );
-    setTheme(defaults);
+    setModal({
+      isOpen: true,
+      type: "confirm",
+      title: "Reset Identity",
+      message: "Are you sure you want to revert the design system to its original architectural defaults?",
+      onConfirm: () => {
+        const defaults = Object.fromEntries(
+          Object.entries(THEME_LABELS).map(([key, val]) => [key, val.default])
+        );
+        setTheme(defaults);
+      }
+    });
   };
 
   if (loading) return (
@@ -126,12 +167,10 @@ export default function ThemeContent() {
           >
             {saving ? (
                <div className="w-4 h-4 border-2 border-cream/30 border-t-cream rounded-full animate-spin"></div>
-            ) : saved ? (
-              <CheckCircle2 size={16} className="text-green-400" />
             ) : (
               <Save size={16} />
             )}
-            {saving ? "Deploying..." : saved ? "Identity Updated" : "Deploy Theme"}
+            {saving ? "Deploying..." : "Deploy Theme"}
           </button>
         </div>
       </div>
@@ -238,6 +277,15 @@ export default function ThemeContent() {
           </div>
         </div>
       </div>
+
+      <StatusModal 
+        isOpen={modal.isOpen}
+        type={modal.type}
+        title={modal.title}
+        message={modal.message}
+        onConfirm={modal.onConfirm}
+        onClose={() => setModal({ ...modal, isOpen: false })}
+      />
     </div>
   );
 }
