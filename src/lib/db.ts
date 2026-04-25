@@ -1,4 +1,4 @@
-import clientPromise from "./mongodb";
+export { default as clientPromise } from "./mongodb";
 import { promises as fs } from "fs";
 import path from "path";
 import { ObjectId } from "mongodb";
@@ -63,7 +63,7 @@ These terms are governed by the laws of the jurisdiction in which the studio hea
   }
 };
 
-async function getLocalData() {
+export async function getLocalData() {
   try {
     const data = await fs.readFile(DB_PATH, "utf8");
     return JSON.parse(data);
