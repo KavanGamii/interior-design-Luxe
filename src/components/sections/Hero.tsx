@@ -10,8 +10,11 @@ export function Hero({ config, content }: { config: any, content?: any }) {
   const containerRef = useRef(null);
   const imageWrapRef = useRef<HTMLDivElement>(null);
   
-  const heroTitle = content?.title || config?.heroTitle || "Crafting Elevated Spaces.";
-  const words = heroTitle.split(" ");
+  const fullTitle = content?.title 
+    ? `${content.title}${content.titleSuffix ? ' ' + content.titleSuffix : ''}`
+    : config?.heroTitle || "Crafting Elevated Spaces.";
+
+  const words = fullTitle.split(" ");
 
   useGSAP(() => {
     const tl = gsap.timeline({ defaults: { ease: "expo.inOut" } });
