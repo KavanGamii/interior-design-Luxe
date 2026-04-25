@@ -114,6 +114,12 @@
       "instagram": "https://instagram.com/luxe",
       "pinterest": "https://pinterest.com/luxe",
       "linkedin": "https://linkedin.com/company/luxe"
+    },
+    "theme": {
+      "accentGold": "#c5a572",
+      "charcoal": "#1a1a1a",
+      "cream": "#fcfaf5",
+      "mutedBrown": "#8d775f"
     }
   },
   "journal": [
@@ -128,102 +134,215 @@
       "author": "Elena Rossi",
       "readingTime": "5 min",
       "content": "Materiality isn't just about what a building is made of; it's about how it feels to the touch, how it ages under the sun, and the stories it tells through its grain and texture. In our latest explorations, we've focused on the juxtaposition of cold Carrera marble against the warmth of reclaimed oak.\n\nThis dialogue between materials creates a sensory experience that goes beyond the visual. It's about the weight of a stone island in a kitchen, the silent sound of a linen-draped room, and the honesty of exposed steel. We believe that when you strip away the trends, the materials are what remain to anchor a home in reality."
+    }
+  ],
+  "site_pages": [
+    {
+      "id": "home",
+      "name": "Home Page",
+      "sections": [
+        {
+          "id": "hero-1",
+          "type": "intro",
+          "content": {
+            "pill": "Introduction",
+            "title": "Crafting",
+            "titleAccent": "Elevated",
+            "titleSuffix": "Spaces.",
+            "paragraph1": "We blend architectural precision with visionary artistry to create environments that tell your story.",
+            "paragraph2": "Explore our portfolio of curated residential and hospitality projects.",
+            "image": "/luxury_living_room_hero.png"
+          }
+        },
+        {
+          "id": "philosophy-preview",
+          "type": "mission",
+          "content": {
+            "pill": "Our Philosophy",
+            "quote": "Design is not just what it looks like and feels like. Design is how it works.",
+            "linkText": "Read More",
+            "linkHref": "/philosophy"
+          }
+        },
+        {
+          "id": "marquee-home",
+          "type": "marquee",
+          "content": {
+            "items": [
+              "Bespoke Interiors",
+              "Architectural Excellence",
+              "Sustainable Luxury"
+            ]
+          }
+        }
+      ]
     },
     {
-      "id": "2",
-      "slug": "quiet-luxury-in-milan",
-      "title": "Quiet Luxury in Milan",
-      "excerpt": "A deep dive into our latest penthouse project and the subtle interplay of light and shadow.",
-      "category": "Case Study",
-      "date": "February 28, 2024",
-      "image": "/assets/journal_2.png",
-      "author": "Julian Thorne",
-      "readingTime": "8 min",
-      "content": "Milan represents a unique intersection of heritage and high-fashion minimalism. For the Brera Penthouse project, we sought to capture this essence by allowing the city's skyline to act as the primary artwork.\n\nInterior architecture in this context is about restraint. We used a palette of muted greys and deep navies to frame the floor-to-ceiling vistas. The lighting was meticulously planned to shift from bright, energetic morning rays to a soft, amber glow that mimics the transition of the Italian sun over the Duomo. Every piece of furniture was custom-made to ensure it inhabited the space without cluttering the soul of the room."
+      "id": "about",
+      "name": "About Us",
+      "sections": [
+        {
+          "id": "intro-1",
+          "type": "intro",
+          "content": {
+            "pill": "Our Agency",
+            "title": "Redefining",
+            "titleAccent": "Luxury",
+            "titleSuffix": "Living.",
+            "paragraph1": "Luxe Interiors was founded on the principle that your home should be a reflection of your soul. We create environments that are not just seen, but felt.",
+            "paragraph2": "Based in London with projects globally, our award-winning team brings a unique blend of architectural precision and visionary artistry to every residential and hospitality project.",
+            "image": "/luxury_living_room_hero.png"
+          }
+        },
+        {
+          "id": "process-1",
+          "type": "horizontal-scroll",
+          "content": {
+            "steps": [
+              {
+                "step": "01",
+                "title": "Discovery",
+                "desc": "We begin by understanding your rhythm of life, aspirations, and the unique spirit of the space."
+              }
+            ]
+          }
+        },
+        {
+          "id": "team-1",
+          "type": "team",
+          "content": {
+            "pill": "The Studio",
+            "title": "Visionaries Behind the Design.",
+            "members": [
+              {
+                "name": "Elena Rossi",
+                "role": "Founding Partner",
+                "img": "/assets/team_1.png"
+              },
+              {
+                "name": "Julian Thorne",
+                "role": "Director of Architecture",
+                "img": "/assets/team_2.png"
+              }
+            ]
+          }
+        },
+        {
+          "id": "marquee-1",
+          "type": "marquee",
+          "content": {
+            "items": [
+              "Award for Innovation 2024",
+              "Best Luxury Design '23"
+            ]
+          }
+        },
+        {
+          "id": "mission-1",
+          "type": "mission",
+          "content": {
+            "pill": "Our Mission",
+            "quote": "To curate environments where every detail is a testament to the client’s legacy.",
+            "linkText": "Work with us",
+            "linkHref": "/contact"
+          }
+        }
+      ]
     },
     {
-      "id": "3",
-      "slug": "curating-light",
-      "title": "Curating Light",
-      "excerpt": "How architectural lighting transforms a space from a structure into a sanctuary.",
-      "category": "Expertise",
-      "date": "January 12, 2024",
-      "image": "/assets/journal_3.png",
-      "author": "Elena Rossi",
-      "readingTime": "6 min",
-      "content": "Light is the most ephemeral yet powerful material in our toolkit. Without it, the finest textures and most balanced proportions are lost to the darkness. Our approach to 'Curating Light' involves thinking about illumination long before the first wire is pulled.\n\nWe start with natural light—the most precious resource of any site. By strategically placing apertures and using reflective surfaces, we can draw the outside in. For artificial lighting, we avoid the 'flatness' of standard ceiling grids. Instead, we layer light. Sconces provide a warm embrace at eye level, while subtle ground-up spots highlight architectural columns. Light should feel like a natural extension of the room's atmosphere, not a harsh intrusion."
+      "id": "philosophy",
+      "name": "Philosophy",
+      "sections": [
+        {
+          "id": "philosophy-hero",
+          "type": "intro",
+          "content": {
+            "pill": "Our Intent",
+            "title": "Quiet",
+            "titleAccent": "Luxury",
+            "titleSuffix": "Architecture.",
+            "paragraph1": "We believe in the silent power of well-proportioned spaces and the weight of authentic materials.",
+            "paragraph2": "Every project is a study in restraint and intentionality.",
+            "image": "/assets/philosophy_hero.png"
+          }
+        }
+      ]
     },
     {
-      "id": "4",
-      "slug": "sustainable-opulence",
-      "title": "Sustainable Opulence",
-      "excerpt": "Proving that high-end design and eco-conscious choices are not mutually exclusive.",
-      "category": "Innovation",
-      "date": "December 05, 2023",
-      "image": "/assets/journal_1.png",
-      "author": "Julian Thorne",
-      "readingTime": "7 min",
-      "content": "The future of luxury interior design is inevitably green. We are seeing a massive shift towards materials that carry a story of sustainability without sacrificing an ounce of elegance.\n\nFrom mycelium-based acoustic panels to carbon-neutral stone tiles, the innovations are breathtaking. In our recent Zurich villa, we implemented a full greywater recycling system integrated into a decorative indoor living wall. Luxury is now as much about the health of the planet as it is about the comfort of the client."
+      "id": "services",
+      "name": "Services",
+      "sections": [
+        {
+          "id": "services-hero",
+          "type": "intro",
+          "content": {
+            "pill": "Expertise",
+            "title": "multidisciplinary",
+            "titleAccent": "Vision",
+            "titleSuffix": "Studio.",
+            "paragraph1": "From strategic master-planning to fine-grain interior detailing.",
+            "paragraph2": "We provide a turnkey experience for the most discerning clients.",
+            "image": "/assets/materiality.png"
+          }
+        }
+      ]
     },
     {
-      "id": "5",
-      "slug": "the-geometry-of-rest",
-      "title": "The Geometry of Rest",
-      "excerpt": "Designing bedrooms that prioritize neurological recovery and aesthetic peace.",
-      "category": "Residential",
-      "date": "November 20, 2023",
-      "image": "/assets/journal_2.png",
-      "author": "Elena Rossi",
-      "readingTime": "4 min",
-      "content": "A bedroom is a cognitive reset point. In our design process, we look at the 'Geometry of Rest'—how the lines of the room guide the eye towards relaxation. Circular forms and soft corners reduce the brain's alertness, while symmetry provides a sense of security.\n\nWe also prioritize thermal and acoustic isolation. A silent room is a luxury that few truly appreciate until they experience it. By using heavy textiles and sound-absorbing wall treatments, we create a cocoon that protects the sleep cycle from the chaos of the outside world."
+      "id": "projects",
+      "name": "Projects",
+      "sections": [
+        {
+          "id": "projects-intro",
+          "type": "intro",
+          "content": {
+            "pill": "Portfolio",
+            "title": "Selected",
+            "titleAccent": "Works",
+            "titleSuffix": "Archive.",
+            "paragraph1": "A curated collection of our most impactful residential and hospitality transformations.",
+            "paragraph2": "Each project stands as a testament to our commitment to excellence.",
+            "image": "/luxury_living_room_hero.png"
+          }
+        }
+      ]
     },
     {
-      "id": "6",
-      "slug": "editorial-living",
-      "title": "Editorial Living",
-      "excerpt": "Transforming residential spaces into scenes worthy of a cinematic capture.",
-      "category": "Design Style",
-      "date": "October 15, 2023",
-      "image": "/assets/journal_3.png",
-      "author": "Julian Thorne",
-      "readingTime": "5 min",
-      "content": "Every home tells a story, and 'Editorial Living' is about making that story cinematic. It's the art of curation—knowing when to add a statement piece and when to let the negative space speak.\n\nWe often reference cinematic masters like Wes Anderson or Wong Kar-wai for their use of color and composition. A well-designed room should feel like a still from a beautiful film, where every object has a purpose and every shadow adds depth. It's about creating a lifestyle that feels intentional and curated every single day."
+      "id": "journal",
+      "name": "Journal",
+      "sections": [
+        {
+          "id": "journal-intro",
+          "type": "intro",
+          "content": {
+            "pill": "Journal",
+            "title": "Insights",
+            "titleAccent": "Inspiration",
+            "titleSuffix": "News.",
+            "paragraph1": "Exploring the intersection of architecture, art, and modern living.",
+            "paragraph2": "Stay updated with our latest thoughts on design philosophy and materiality.",
+            "image": "/assets/journal_collage.png"
+          }
+        }
+      ]
     },
     {
-      "id": "7",
-      "slug": "the-evolution-of-wood",
-      "title": "The Evolution of Wood",
-      "excerpt": "Why timber remains the most versatile and soul-enriching material in our studio.",
-      "category": "Materials",
-      "date": "September 10, 2023",
-      "image": "/assets/journal_1.png",
-      "author": "Elena Rossi",
-      "readingTime": "6 min",
-      "content": "Wood is alive. It breathes, it expands, and it deepens in color with age. We celebrate this evolution in our work. We don't fear the silvering of teak or the checking in old oak; we see it as a mark of character.\n\nIn our studio, we are constantly experimenting with traditional Japanese charring techniques (Shou Sugi Ban) and modern laser-cutting to push the boundaries of what wood can do. It's the material that connects us most closely to nature, bringing an organic pulse to even the most minimalist architectural shells."
-    },
-    {
-      "id": "8",
-      "slug": "urban-sanctuaries",
-      "title": "Urban Sanctuaries",
-      "excerpt": "Bringing the tranquility of the countryside to high-density city developments.",
-      "category": "City Living",
-      "date": "August 22, 2023",
-      "image": "/assets/journal_2.png",
-      "author": "Julian Thorne",
-      "readingTime": "7 min",
-      "content": "The challenge of urban living is the constant noise and visual clutter. Our 'Urban Sanctuary' concept is about building a psychological barrier at the front door. Through the use of air purification, specialized acoustic glazing, and biophilic design, we can lower cortisol levels the moment a client enters their apartment.\n\nWe emphasize the use of indoor gardens and water features that mask the sounds of traffic. These are not merely decorations; they are functional tools for mental health in the 21-century metropolis."
-    },
-    {
-      "id": "9",
-      "slug": "the-masters-touch",
-      "title": "The Master's Touch",
-      "excerpt": "The importance of bespoke cabinetry and hand-carved details in a mass-produced world.",
-      "category": "Craftsmanship",
-      "date": "July 01, 2023",
-      "image": "/assets/journal_3.png",
-      "author": "Elena Rossi",
-      "readingTime": "8 min",
-      "content": "In an era of flat-pack furniture, true luxury is defined by the human hand. 'The Master's Touch' refers to our collaborations with local artisans who have spent decades perfecting their craft.\n\nWhether it's a hand-forged bronze door handle or a hand-carved details in a mass-produced world. In an era of flat-pack furniture, true luxury is defined by the human hand. 'The Master's Touch' refers to our collaborations with local artisans who have spent decades perfecting their craft.\n\nWhether it's a hand-forged bronze door handle or a hand-knotted silk rug, these items carry the energy of their creator. They are one-of-a-kind pieces that cannot be replicated by a machine. We believe that incorporating these artisanal elements is what gives a project its true weight and exclusivity."
+      "id": "contact",
+      "name": "Contact",
+      "sections": [
+        {
+          "id": "contact-intro",
+          "type": "intro",
+          "content": {
+            "pill": "Connect",
+            "title": "Start",
+            "titleAccent": "Your",
+            "titleSuffix": "Journey.",
+            "paragraph1": "We are available for worldwide architectural and interior commissions.",
+            "paragraph2": "Reach out to our London studio to discuss your vision.",
+            "image": "/assets/journal_3.png"
+          }
+        }
+      ]
     }
   ]
 }

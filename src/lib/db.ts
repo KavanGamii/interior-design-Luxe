@@ -17,12 +17,15 @@ const DEFAULT_DATA = {
     contactPhone: "+44 (0) 20 7946 0123",
     contactAddress: "124 Baker Street, London, W1U 6TY",
     socials: {
-      instagram: "#",
-      pinterest: "#",
-      linkedin: "#",
-      facebook: "#",
-      twitter: "#",
-      vimeo: "#"
+      instagram: "https://instagram.com/luxe",
+      pinterest: "https://pinterest.com/luxe",
+      linkedin: "https://linkedin.com/company/luxe"
+    },
+    theme: {
+      accentGold: "#c5a572",
+      charcoal: "#1a1a1a",
+      cream: "#fcfaf5",
+      mutedBrown: "#8d775f"
     },
     privacyContent: `# Privacy Architecture
 
@@ -242,5 +245,51 @@ export async function getJournalPostBySlug(slug: string) {
   } catch (e) {
     const data = await getLocalData();
     return data.journal?.find((p: any) => p.slug === slug) || null;
+  }
+}
+
+export async function getSitePages() {
+  try {
+    const client = await clientPromise;
+    const db = client.db("luxe_interiors");
+    const pages = await db.collection("site_pages").find({}).toArray();
+    return JSON.parse(JSON.stringify(pages));
+  } catch (e) {
+    const data = await getLocalData();
+    return data.site_pages || DEFAULT_DATA.site_pages || [];
+  }
+}
+
+export async function getSitePageById(id: string) {
+  try {
+    const client = await clientPromise;
+    const db = client.db("luxe_interiors");
+    const page = await db.collection("site_pages").findOne({ id });
+    return page ? JSON.parse(JSON.stringify(page)) : null;
+  } catch (e) {
+    const data = await getLocalData();
+    return (data.site_pages || []).find((p: any) => p.id === id) || 
+           (DEFAULT_DATA.site_pages || []).find((p: any) => p.id === id) || null;
+  }
+}
+
+export async function updateSitePage(id: string, pageData: any) {
+  try {
+    const client = await clientPromise;
+    const db = client.db("luxe_interiors");
+    const { _id, ...updateData } = pageData;
+    await db.collection("site_pages").updateOne({ id }, { $set: updateData }, { upsert: true });
+    return true;
+  } catch (e) {
+    const data = await getLocalData();
+    if (!data.site_pages) data.site_pages = [];
+    const index = data.site_pages.findIndex((p: any) => p.id === id);
+    if (index !== -1) {
+      data.site_pages[index] = { ...data.site_pages[index], ...pageData };
+    } else {
+      data.site_pages.push({ ...pageData, id });
+    }
+    await saveLocalData(data);
+    return true;
   }
 }

@@ -20,6 +20,7 @@ import { cn } from "@/lib/utils";
 const NAV_ITEMS = [
   { name: "Overview", href: "/admin-module", icon: LayoutDashboard },
   { name: "Pages", href: "/admin-module/pages", icon: FileText },
+  { name: "Theme", href: "/admin-module/theme", icon: Settings },
   { name: "Common", href: "/admin-module/common", icon: Box },
   { name: "Media", href: "/admin-module/media", icon: ImageIcon },
 ];

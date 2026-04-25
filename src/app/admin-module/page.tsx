@@ -11,15 +11,49 @@ export default function AdminDashboard() {
     { name: "Revenue Growth", value: "18%", icon: TrendingUp, change: "+2.1%", changeType: "increase" },
   ]);
 
+  const [syncing, setSyncing] = useState(false);
+  const [syncDone, setSyncDone] = useState(false);
+
+  const handleSync = async () => {
+    setSyncing(true);
+    try {
+      const res = await fetch("/api/admin/system/sync", { method: "POST" });
+      if (res.ok) {
+        setSyncDone(true);
+        setTimeout(() => setSyncDone(false), 5000);
+      }
+    } catch (e) {
+      console.error("Sync failed", e);
+    } finally {
+      setSyncing(false);
+    }
+  };
+
   return (
     <div className="space-y-12">
-      <div>
-        <h1 className="text-accent-gold uppercase tracking-[0.4em] text-sm font-bold mb-4">
-          Admin Dashboard
-        </h1>
-        <h2 className="text-5xl md:text-6xl font-serif text-charcoal">
-          Welcome back, <br /> <span className="italic text-accent-gold">Kavan.</span>
-        </h2>
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div>
+          <h1 className="text-accent-gold uppercase tracking-[0.4em] text-sm font-bold mb-4">
+            Studio Command
+          </h1>
+          <h2 className="text-5xl md:text-6xl font-serif text-charcoal">
+            Welcome back, <br /> <span className="italic text-accent-gold">Kavan.</span>
+          </h2>
+        </div>
+
+        <div className="bg-charcoal p-6 rounded-2xl border border-cream/5 shadow-2xl flex items-center gap-6 group">
+          <div className="space-y-1">
+             <p className="text-[10px] uppercase tracking-widest font-black text-accent-gold">Environment Status</p>
+             <p className="text-xs text-cream/60">Live Deployment Ready</p>
+          </div>
+          <button 
+            onClick={handleSync}
+            disabled={syncing}
+            className="bg-accent-gold text-charcoal px-6 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest hover:scale-105 transition-all disabled:opacity-50"
+          >
+            {syncing ? "Syncing..." : syncDone ? "Identity Synced ✓" : "Sync Local to Cloud"}
+          </button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">

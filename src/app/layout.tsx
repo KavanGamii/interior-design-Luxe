@@ -18,6 +18,7 @@ import { getConfig } from "@/lib/db";
 import { CustomCursor } from "@/components/layout/CustomCursor";
 import { Preloader } from "@/components/layout/Preloader";
 import { PublicLayoutWrapper } from "@/components/layout/PublicLayoutWrapper";
+import { ThemeProvider } from "@/components/layout/ThemeProvider";
 
 export const metadata: Metadata = {
   title: "Luxe Interiors | Luxury Interior Design Studio",
@@ -37,6 +38,7 @@ export default async function RootLayout({
       className={`${cormorant.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="font-sans bg-cream text-charcoal min-h-screen selection:bg-accent-gold/30 selection:text-charcoal transition-colors duration-500">
+        <ThemeProvider theme={config?.theme} />
         <PublicLayoutWrapper config={config}>
           {children}
         </PublicLayoutWrapper>
