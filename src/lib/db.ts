@@ -11,6 +11,7 @@ const DB_PATH = path.join(process.cwd(), "src/data/db.json");
 const DEFAULT_DATA = {
   projects: [],
   journal: [],
+  site_pages: [],
   config: {
     id: "global",
     heroTitle: "Crafting Elevated Spaces.",
