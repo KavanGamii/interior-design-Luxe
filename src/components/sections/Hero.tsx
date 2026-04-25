@@ -6,11 +6,11 @@ import Image from "next/image";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { Minus } from "lucide-react";
 
-export function Hero({ config }: { config: any }) {
+export function Hero({ config, content }: { config: any, content?: any }) {
   const containerRef = useRef(null);
   const imageWrapRef = useRef<HTMLDivElement>(null);
   
-  const heroTitle = config?.heroTitle || "Crafting Elevated Spaces.";
+  const heroTitle = content?.title || config?.heroTitle || "Crafting Elevated Spaces.";
   const words = heroTitle.split(" ");
 
   useGSAP(() => {
@@ -97,7 +97,7 @@ export function Hero({ config }: { config: any }) {
       {/* Background Image Layer */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/luxury_living_room_hero.png"
+          src={content?.image || "/luxury_living_room_hero.png"}
           alt="Cinematic Architectural Hero"
           fill
           className="hero-bg-image object-cover brightness-[0.4] grayscale-[0.3]"

@@ -4,7 +4,7 @@ import { useRef } from "react";
 import Image from "next/image";
 import { gsap, useGSAP } from "@/lib/gsap";
 
-export function Philosophy() {
+export function Philosophy({ content }: { content?: any }) {
   const sectionRef = useRef(null);
   const imageRevealRef = useRef(null);
 
@@ -71,7 +71,7 @@ export function Philosophy() {
           <div className="relative aspect-[3/4] md:aspect-square overflow-hidden shadow-2xl">
             <div ref={imageRevealRef} className="w-full h-full relative">
               <Image
-                src="/luxury_bedroom.png"
+                src={content?.image || "/luxury_bedroom.png"}
                 alt="Architecture Philosophy"
                 fill
                 className="object-cover"
@@ -81,13 +81,17 @@ export function Philosophy() {
 
           <div className="philosophy-content space-y-12">
             <h3 className="text-accent-gold uppercase tracking-[0.4em] text-sm font-bold">
-              Our Vision
+              {content?.subtitle || "Our Vision"}
             </h3>
             <h4 className="text-5xl md:text-7xl font-serif text-charcoal leading-tight">
-              Designing with <br /> <span className="italic text-accent-gold">Quiet Intent.</span>
+               {content?.title ? (
+                 <span>{content.title}</span>
+               ) : (
+                <>Designing with <br /> <span className="italic text-accent-gold">Quiet Intent.</span></>
+               )}
             </h4>
             <p className="text-xl text-charcoal/70 font-sans leading-relaxed max-w-lg">
-              We believe that true luxury lies in the unspoken. It is the harmony of texture, light, and volume that creates an atmosphere of timeless elegance. We craft sanctuaries that resonate with the soul.
+              {content?.text || "We believe that true luxury lies in the unspoken. It is the harmony of texture, light, and volume that creates an atmosphere of timeless elegance. We craft sanctuaries that resonate with the soul."}
             </p>
             <div className="pt-8">
               <button className="group flex items-center space-x-6 text-charcoal">
