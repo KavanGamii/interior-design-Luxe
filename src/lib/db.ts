@@ -11,7 +11,35 @@ const DB_PATH = path.join(process.cwd(), "src/data/db.json");
 const DEFAULT_DATA = {
   projects: [],
   journal: [],
-  site_pages: [],
+  site_pages: [
+    {
+      id: "home",
+      name: "Home Page",
+      sections: [
+        {
+          id: "hero",
+          type: "hero",
+          content: {
+            title: "Crafting Elevated Spaces.",
+            subtitle: "Luxury Interior Design Studio",
+            description: "We orchestrate environments that resonate with quiet luxury and architectural precision.",
+            image: "/images/hero-1.jpg",
+            ctaText: "Explore Projects",
+            ctaLink: "/projects"
+          }
+        },
+        {
+          id: "philosophy",
+          type: "philosophy",
+          content: {
+            title: "Our Philosophy",
+            text: "Design is not just about aesthetics; it's about the dialogue between space, light, and the human experience.",
+            image: "/images/philosophy.jpg"
+          }
+        }
+      ]
+    }
+  ],
   config: {
     id: "global",
     heroTitle: "Crafting Elevated Spaces.",

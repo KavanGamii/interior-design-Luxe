@@ -82,31 +82,43 @@ export function PagesContent({ projects, journalPosts }: { projects: any[], jour
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredCorePages.map((page) => (
-              <div key={page.href} className="group bg-white border border-charcoal/5 p-8 rounded-2xl hover:shadow-[0_20px_40px_-20px_rgba(0,0,0,0.1)] transition-all duration-500 relative overflow-hidden">
+              <Link 
+                key={page.href} 
+                href={`/admin-module/pages/${page.id}`}
+                className="group bg-white border border-charcoal/5 p-8 rounded-2xl hover:shadow-[0_20px_40px_-20px_rgba(0,0,0,0.1)] transition-all duration-500 relative overflow-hidden flex flex-col"
+              >
                 <div className="absolute top-0 right-0 w-32 h-32 bg-accent-gold/5 rounded-bl-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-700"></div>
                 
-                <div className="relative z-10">
+                <div className="relative z-10 flex-1">
                   <div className="w-12 h-12 bg-charcoal text-cream flex items-center justify-center rounded-xl mb-6 group-hover:bg-accent-gold group-hover:text-charcoal transition-colors duration-300">
                     <page.icon size={24} />
                   </div>
                   <h3 className="text-xl font-serif font-bold text-charcoal mb-3">{page.name}</h3>
-                  <p className="text-charcoal/40 text-sm leading-relaxed mb-6 h-10 overflow-hidden">
+                  <p className="text-charcoal/40 text-sm leading-relaxed mb-6 h-10 overflow-hidden line-clamp-2">
                     {page.desc}
                   </p>
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between mt-auto">
                     <span className="text-[10px] font-sans font-black uppercase tracking-[0.2em] text-accent-gold">
-                      {page.href}
+                      {page.id === 'home' ? '/' : `/${page.id}`}
                     </span>
-                    <Link 
-                      href={page.href} 
-                      target="_blank"
+                    <button 
+                      onClick={(e) => {
+                        e.preventDefault();
+                        window.open(page.href, '_blank');
+                      }}
                       className="flex items-center text-[10px] font-sans font-black uppercase tracking-widest text-charcoal/40 hover:text-charcoal transition-colors"
                     >
                       View Live <ExternalLink size={12} className="ml-2" />
-                    </Link>
+                    </button>
                   </div>
                 </div>
-              </div>
+
+                {/* Hover indicator */}
+                <div className="mt-8 pt-6 border-t border-charcoal/5 flex items-center justify-between transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                   <span className="text-[10px] font-black uppercase tracking-widest text-charcoal">Enter Visual Builder</span>
+                   <ChevronRight size={16} className="text-accent-gold" />
+                </div>
+              </Link>
             ))}
           </div>
         </section>

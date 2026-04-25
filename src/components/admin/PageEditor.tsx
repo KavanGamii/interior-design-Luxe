@@ -14,7 +14,10 @@ import {
   MoveVertical,
   Type,
   Image as ImageIcon,
-  FolderOpen
+  FolderOpen,
+  Monitor,
+  Smartphone,
+  X
 } from "lucide-react";
 import { MediaPickerModal } from "./MediaPickerModal";
 import { StatusModal } from "./StatusModal";
@@ -43,6 +46,8 @@ export default function PageEditor({ pageId }: PageEditorProps) {
     title: "",
     message: ""
   });
+
+  const [showPreview, setShowPreview] = useState(false);
 
   useEffect(() => {
     fetchPage();
@@ -114,6 +119,27 @@ export default function PageEditor({ pageId }: PageEditorProps) {
     }));
   };
 
+  const addListItem = (sectionId: string, field: string) => {
+    const section = page.sections.find((s: any) => s.id === sectionId);
+    const list = section.content[field];
+    if (!Array.isArray(list)) return;
+
+    let newItem: any = "";
+    if (list.length > 0 && typeof list[0] === 'object') {
+      newItem = Object.fromEntries(Object.keys(list[0]).map(k => [k, ""]));
+    }
+
+    updateSectionContent(sectionId, field, [...list, newItem]);
+  };
+
+  const removeListItem = (sectionId: string, field: string, index: number) => {
+    const section = page.sections.find((s: any) => s.id === sectionId);
+    const list = section.content[field];
+    const newList = [...list];
+    newList.splice(index, 1);
+    updateSectionContent(sectionId, field, newList);
+  };
+
   const moveSection = (index: number, direction: 'up' | 'down') => {
     const newSections = [...page.sections];
     const targetIndex = direction === 'up' ? index - 1 : index + 1;
@@ -158,6 +184,12 @@ export default function PageEditor({ pageId }: PageEditorProps) {
           </h2>
         </div>
         <div className="flex gap-4">
+          <button 
+             onClick={() => setShowPreview(true)}
+             className="flex items-center gap-3 bg-white border border-charcoal/5 text-charcoal px-8 py-4 rounded-full font-black text-[10px] uppercase tracking-widest hover:bg-cream transition-all shadow-xl"
+          >
+             <Eye size={16} /> Live Mirror
+          </button>
           <button 
             onClick={handleSave} 
             disabled={saving}
@@ -291,53 +323,145 @@ export default function PageEditor({ pageId }: PageEditorProps) {
                                           </div>
                                        )}
                                     </div>
-                                    <button className="p-3 text-charcoal/20 hover:text-red-500 transition-colors"><Trash2 size={16} /></button>
-                                 </div>
-                               ))}
-                               <button className="w-full py-4 border-2 border-dashed border-charcoal/10 rounded-2xl text-[10px] font-black uppercase tracking-widest text-charcoal/30 hover:border-accent-gold hover:text-accent-gold transition-all">
-                                  Add Item to List
-                               </button>
-                            </div>
-                          ) : (
-                            <textarea 
-                              rows={value.length > 50 ? 5 : 2}
-                              value={value}
-                              onChange={(e) => updateSectionContent(activeTab, key, e.target.value)}
-                              className="w-full bg-cream border border-charcoal/10 rounded-2xl px-6 py-4 text-sm font-sans leading-relaxed focus:outline-none focus:ring-2 focus:ring-accent-gold/20 scrollbar-hide resize-none"
-                            />
-                          )}
+                                    <button 
+                                      onClick={() => removeListItem(activeTab, key, idx)}
+                                      className="p-3 text-charcoal/20 hover:text-red-500 transition-colors"
+                                    >
+                                      <Trash2 size={16} />
+                                    </button>
+                                  </div>
+                                ))}
+                                <button 
+                                  onClick={() => addListItem(activeTab, key)}
+                                  className="w-full py-4 border-2 border-dashed border-charcoal/10 rounded-2xl text-[10px] font-black uppercase tracking-widest text-charcoal/30 hover:border-accent-gold hover:text-accent-gold transition-all"
+                                >
+                                   Add Item to List
+                                </button>
+                             </div>
+                           ) : (
+                             <textarea 
+                               rows={value.length > 50 ? 5 : 2}
+                               value={value}
+                               onChange={(e) => updateSectionContent(activeTab, key, e.target.value)}
+                               className="w-full bg-cream border border-charcoal/10 rounded-2xl px-6 py-4 text-sm font-sans leading-relaxed focus:outline-none focus:ring-2 focus:ring-accent-gold/20 scrollbar-hide resize-none"
+                             />
+                           )}
+                        </div>
+                      );
+                    })}
+                 </div>
+              </div>
+            ) : (
+              <div className="h-[40vh] border-2 border-dashed border-charcoal/10 rounded-[40px] flex flex-col items-center justify-center text-charcoal/20">
+                 <Layout size={48} className="mb-4" />
+                 <p className="font-serif italic text-xl">Select a section to begin building.</p>
+              </div>
+            )}
+         </div>
+       </div>
+
+       <MediaPickerModal 
+         isOpen={!!mediaPickerTarget}
+         onClose={() => setMediaPickerTarget(null)}
+         onSelect={(url) => {
+           if (mediaPickerTarget) {
+             updateSectionContent(mediaPickerTarget.sectionId, mediaPickerTarget.field, url);
+           }
+         }}
+       />
+
+       <StatusModal 
+         isOpen={modal.isOpen}
+         type={modal.type}
+         title={modal.title}
+         message={modal.message}
+         onConfirm={modal.onConfirm}
+         onClose={() => setModal({ ...modal, isOpen: false })}
+       />
+
+       {/* Live Mirror Modal */}
+       {showPreview && (
+         <div className="fixed inset-0 z-[200] bg-charcoal/95 backdrop-blur-3xl flex flex-col animate-in fade-in duration-700">
+           <div className="h-24 border-b border-white/10 flex items-center justify-between px-10 shrink-0">
+              <div className="flex items-center gap-6">
+                 <div className="w-12 h-12 bg-accent-gold text-charcoal rounded-2xl flex items-center justify-center">
+                    <Eye size={24} />
+                 </div>
+                 <div>
+                    <h3 className="text-white font-serif font-black text-xl uppercase tracking-tighter">Live Mirror <span className="italic font-normal opacity-50">Portal</span></h3>
+                    <p className="text-accent-gold text-[10px] uppercase tracking-[0.3em] font-black">Architecture Preview Mode</p>
+                 </div>
+              </div>
+              
+              <div className="flex items-center gap-8 bg-black/40 px-8 py-3 rounded-2xl border border-white/5">
+                 <button className="text-accent-gold transition-all"><Monitor size={20} /></button>
+                 <button className="text-white/20 hover:text-white transition-all"><Smartphone size={20} /></button>
+              </div>
+
+              <button 
+                onClick={() => setShowPreview(false)}
+                className="w-14 h-14 bg-white/5 text-white hover:bg-white hover:text-charcoal transition-all duration-500 flex items-center justify-center rounded-2xl group"
+              >
+                <X size={28} className="group-hover:rotate-90 transition-transform duration-500" />
+              </button>
+           </div>
+
+           <div className="flex-1 overflow-hidden p-12 flex items-center justify-center">
+              <div className="w-full h-full max-w-5xl bg-white rounded-[40px] shadow-[0_0_100px_rgba(0,0,0,0.5)] overflow-hidden border-4 border-white/10 relative group/preview">
+                 <div className="absolute inset-0 overflow-y-auto no-scrollbar scroll-smooth">
+                    {page.sections.map((section: any) => (
+                       <div key={section.id} className="relative group/section border-b border-charcoal/5 last:border-b-0">
+                          {renderSectionPreview(section)}
+                          <div className="absolute top-4 right-4 opacity-0 group-hover/section:opacity-100 transition-opacity">
+                             <span className="bg-charcoal text-accent-gold px-3 py-1 rounded-full text-[8px] font-black uppercase tracking-widest">{section.type}</span>
+                          </div>
                        </div>
-                     );
-                   })}
-                </div>
-             </div>
-           ) : (
-             <div className="h-[40vh] border-2 border-dashed border-charcoal/10 rounded-[40px] flex flex-col items-center justify-center text-charcoal/20">
-                <Layout size={48} className="mb-4" />
-                <p className="font-serif italic text-xl">Select a section to begin building.</p>
-             </div>
-           )}
-        </div>
-      </div>
-
-      <MediaPickerModal 
-        isOpen={!!mediaPickerTarget}
-        onClose={() => setMediaPickerTarget(null)}
-        onSelect={(url) => {
-          if (mediaPickerTarget) {
-            updateSectionContent(mediaPickerTarget.sectionId, mediaPickerTarget.field, url);
-          }
-        }}
-      />
-
-      <StatusModal 
-        isOpen={modal.isOpen}
-        type={modal.type}
-        title={modal.title}
-        message={modal.message}
-        onConfirm={modal.onConfirm}
-        onClose={() => setModal({ ...modal, isOpen: false })}
-      />
+                    ))}
+                 </div>
+              </div>
+           </div>
+         </div>
+       )}
     </div>
   );
+}
+
+function renderSectionPreview(section: any) {
+  const { type, content } = section;
+
+  switch(type) {
+    case 'hero':
+      return (
+        <div className="relative h-[600px] bg-charcoal overflow-hidden py-24 px-12">
+           <div className="absolute inset-0 bg-black/40 z-10" />
+           <img src={content.image || "/images/placeholder.jpg"} className="absolute inset-0 w-full h-full object-cover" alt="" />
+           <div className="relative z-20 h-full flex flex-col justify-center max-w-2xl">
+              <span className="text-accent-gold text-[10px] uppercase tracking-[0.4em] font-black mb-6">{content.subtitle}</span>
+              <h1 className="text-white text-6xl font-serif font-black leading-none mb-8">{content.title}</h1>
+              <p className="text-white/60 text-lg font-sans leading-relaxed mb-12">{content.description}</p>
+              <div className="px-8 py-4 bg-accent-gold text-charcoal rounded-full font-black text-[10px] uppercase tracking-widest w-fit">
+                 {content.ctaText}
+              </div>
+           </div>
+        </div>
+      );
+    case 'philosophy':
+      return (
+        <div className="bg-cream py-24 px-12 flex gap-12 items-center">
+           <div className="flex-1 space-y-8">
+              <h2 className="text-4xl font-serif text-charcoal italic">{content.title}</h2>
+              <p className="text-charcoal/60 leading-relaxed text-sm max-w-md">{content.text}</p>
+           </div>
+           <div className="flex-1 aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl">
+              <img src={content.image || "/images/placeholder.jpg"} className="w-full h-full object-cover" alt="" />
+           </div>
+        </div>
+      );
+    default:
+      return (
+        <div className="p-20 text-center">
+           <h3 className="text-2xl font-serif text-charcoal/30 italic">Section: {type}</h3>
+        </div>
+      );
+  }
 }
