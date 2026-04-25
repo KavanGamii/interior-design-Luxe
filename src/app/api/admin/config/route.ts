@@ -13,9 +13,14 @@ export async function GET() {
 export async function PUT(req: Request) {
   try {
     const data = await req.json();
-    await updateConfig(data);
+    const success = await updateConfig(data);
+    if (!success) throw new Error("Database update returned failure status");
     return NextResponse.json({ success: true });
-  } catch (error) {
-    return NextResponse.json({ error: "Failed to update config" }, { status: 500 });
+  } catch (error: any) {
+    console.error("Config Update API Error:", error.message);
+    return NextResponse.json({ 
+      error: "Failed to update config",
+      message: error.message
+    }, { status: 500 });
   }
 }

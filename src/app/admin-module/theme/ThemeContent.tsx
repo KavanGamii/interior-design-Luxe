@@ -1,6 +1,6 @@
 "use client";
 
-import { StatusModal } from "../../components/admin/StatusModal";
+import { StatusModal } from "@/components/admin/StatusModal";
 
 const THEME_LABELS = {
   accentGold: {
